@@ -1,0 +1,126 @@
+---
+title       : Price Explorer
+subtitle    : European and Asian Options
+author      : Andareiro
+job         : Coursera Data Science Student
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+```{r echo =F, message=F, warning=F}
+# Quietly load up our libraries
+require(ggplot2)
+require(RQuantLib)
+require(tidyr)
+```
+
+
+## Options Price Explorer: Rationale
+
+*Challenge:* Students of finance and financial engineering face a daunting challenge in understanding the array of options contracts in use today. In particular, students must grapple with how the value of an option changes in response to changes in the market environment. Different options respond in different ways.
+
+*Solution:* The Options Price Explorer! This tool presents an interactive visualization to allow students to explore how two different options respond differently to changes in the market environment, specifically: volatility, underlying price, and tenor.
+
+[Price Explorer](https://andareiro.shinyapps.io/app_one) on [ShinyApps.io](http://www.shinyapps.io/)
+
+[Project code]() on [GitHub](https://github.com/)
+
+--- .class #id 
+
+## Conventional Approach
+
+### How would a student normally compare the behavior of two options?
+
+A common approach is for a student to use a "scenario table," where the price of the option is compared as two variables change; in this case, the price of the underlying and volatility:
+
+*Change in value of a European option as price of the underlying and volatility change; strike of 400, maturity of 1 year held constant.*
+*Columns headings: volatility; rows: underyling price.*
+```{r echo=F}
+# Create vectors of underlying prices and volatilities
+und.seq <- seq (395, 405, by = 1)
+vol.seq <- seq (0.15, .35, by = .05)
+# Calculate how the value of a European option changes as price of the underyling and volatility change, holding other inputs constant
+euroVal <- EuropeanOptionArrays("call", underlying = und.seq,
+                     strike = 400,
+                     dividendYield = 0,
+                     riskFreeRate = 0.025,
+                     maturity = 1,
+                     volatility = vol.seq)$value
+# provide some context and print
+print.table(euroVal, digits = 3)
+```
+
+--- .class #id
+
+## Visualization
+
+Converting this table to a vizualization makes it easier to present a much more data-dense view. It is apparent that the value of the European option is higher than the Asian option, and how this difference changes as the price of the underlying moves away from the strike price of 400.
+
+```{r echo=F}
+# GGPlot of price versus volatility in a European option versus with an Asian option
+
+# Calculate how the value of European and Asian options compare for different underyling
+# prices
+und.seq <- seq (200, 600, by = 1)
+val.seq <- data.frame()
+# A quick for loop to generate the values for the two options (y-axis values)
+for (i in 1:length(und.seq))
+{
+  euroVal <- EuropeanOption("call", underlying = und.seq[i],
+                            strike = 400,
+                            dividendYield = 0,
+                            riskFreeRate = 0.025,
+                            maturity = 1,
+                            volatility = .25)
+  asianVal <- AsianOption(averageType = "geometric", type="call",
+                          underlying = und.seq[i],
+                          strike = 400,
+                          dividendYield = 0,
+                          riskFreeRate = 0.025,
+                          maturity = 1,
+                          volatility = .25)
+  
+  val.seq[i, "euroVal"] <- euroVal$value
+  val.seq[i, "asianVal"] <- asianVal$value
+}
+# Build a data frame to make this easy for ggplot
+val.seq[,"underlying"] <- und.seq
+val.seq <- gather(val.seq, "underlying")
+names(val.seq) <- c("underlying", "option", "value")
+# Plot a comparison of the two options
+ggplot(val.seq, aes(x = underlying, y = value, col = option))+
+         geom_smooth() +
+         ggtitle(label = "Option Value vs. Underlying Price")+
+         scale_x_continuous(name = "Underlying Price (S)") +
+         scale_y_continuous(name = "Option Value (C or P)") +
+         scale_color_discrete(labels = c("European", "Asian"))+
+         theme(legend.title=element_blank())
+
+```
+
+Our Price Explorer tool goes one step further - and makes this visualization interactive!
+
+--- .class #id 
+## Building blocks
+We can build interactive vizualizations with the powerful tools at our disposal in the R programming ecosystem.
+
+* _RQuantLib:_ Pricing models to calculate option values and greeks
+* _Shiny:_ Interactive vizualitions on an open platform
+* _GitHub:_ Publish our code and collect contributions from other quant finance developers
+
+
+--- .class #id 
+
+## Further Development
+We can extend the capabilities of the Price Explorer with further support:
+
+1. Manipulate the axes to represent additional variables
+2. Move to the third dimension! Volatility x Underyling Price x Value, and beyond
+3. Vizualize the "greeks" - values that describe an option's behavior in a changing market environment
+
+### How can you help?
+Contribute to [our Shiny app code]() on GitHub and expand the capabilities! The tool will become more useful the more contributors join in.
