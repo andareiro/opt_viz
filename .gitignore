@@ -11,3 +11,5 @@
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+
+# rsconnect for shinyapps.io stuff
