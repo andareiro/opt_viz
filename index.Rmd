@@ -1,5 +1,5 @@
 ---
-title       : Price Explorer
+title       : Value Explorer
 subtitle    : European and Asian Options
 author      : Andareiro
 job         : Coursera Data Science Student
@@ -19,13 +19,13 @@ require(tidyr)
 ```
 
 
-## Options Price Explorer: Rationale
+## Options Value Explorer: Rationale
 
 *Challenge:* Students of finance and financial engineering face a daunting challenge in understanding the array of options contracts in use today. In particular, students must grapple with how the value of an option changes in response to changes in the market environment. Different options respond in different ways.
 
-*Solution:* The Options Price Explorer! This tool presents an interactive visualization to allow students to explore how two different options respond differently to changes in the market environment, specifically: volatility, underlying price, and tenor.
+*Solution:* The Options Value Explorer! This tool presents an interactive visualization to allow students to explore how two different options respond differently to changes in the market environment, specifically: volatility, underlying price, and tenor.
 
-[Price Explorer](https://andareiro.shinyapps.io/app_one) on [ShinyApps.io](http://www.shinyapps.io/)
+[Value Explorer](https://andareiro.shinyapps.io/app_one) on [ShinyApps.io](http://www.shinyapps.io/)
 
 [Project code]() on [GitHub](https://github.com/)
 
@@ -102,7 +102,7 @@ ggplot(val.seq, aes(x = underlying, y = value, col = option))+
 
 ```
 
-Our Price Explorer tool goes one step further - and makes this visualization interactive!
+Our Value Explorer tool goes one step further - and makes this visualization interactive!
 
 --- .class #id 
 ## Building blocks
@@ -116,7 +116,7 @@ We can build interactive vizualizations with the powerful tools at our disposal 
 --- .class #id 
 
 ## Further Development
-We can extend the capabilities of the Price Explorer with further support:
+We can extend the capabilities of the Value Explorer with further support:
 
 1. Manipulate the axes to represent additional variables
 2. Move to the third dimension! Volatility x Underyling Price x Value, and beyond
