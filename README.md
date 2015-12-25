@@ -6,10 +6,10 @@
 These are the source files for the course project and presentation for the Coursera Data Science Specialization course "Developing Data Products."
 
 Student: Andareiro
-Shiny app: https://andareiro.shinyapps.io/app_one 
+Shiny app: https://andareiro.shinyapps.io/app_one
 Shiny app code: https://github.com/andareiro/opt_viz.git
 Pitch presentation: http://andareiro.github.com/opt_viz
-Pitch presentation code: https://github.com/andareiro/opt_viz/tree/gh-pages 
+Pitch presentation code: https://github.com/andareiro/opt_viz/tree/gh-pages
 
 ### Project Features
 
